@@ -12,6 +12,11 @@ const GUI_TABLE = LR_DATA.GUI_TABLE;
 const DE_TABLE = LR_DATA.DE_TABLE, LU_TABLE = LR_DATA.LU_TABLE, TIAN_MA_SEQ = LR_DATA.TIAN_MA_SEQ;
 const TAO_TABLE = LR_DATA.TAO_TABLE, REN_TABLE = LR_DATA.REN_TABLE, MU_TABLE = LR_DATA.MU_TABLE;
 const SHA_ORDER = LR_DATA.SHA_ORDER;
+const ZHI_HE = {"子":"丑","丑":"子","寅":"亥","亥":"寅","卯":"戌","戌":"卯","辰":"酉","酉":"辰","巳":"申","申":"巳","午":"未","未":"午"};
+const ZHI_PO = {"子":"酉","酉":"子","丑":"辰","辰":"丑","寅":"亥","亥":"寅","卯":"午","午":"卯","巳":"申","申":"巳","未":"戌","戌":"未"};
+const ZHI_HAI = {"子":"未","未":"子","丑":"午","午":"丑","寅":"巳","巳":"寅","卯":"辰","辰":"卯","申":"亥","亥":"申","酉":"戌","戌":"酉"};
+const ZHI_XING = {"子":"卯","卯":"子","寅":"巳","巳":"申","申":"寅","丑":"戌","戌":"未","未":"丑","辰":"辰","午":"午","酉":"酉","亥":"亥"};
+const SHA_NAMES = ["德","合","鬼","墓","破","害","刑","冲"];
 const KETI_BRIEF = LR_DATA.KETI_BRIEF;
 const XING = LR_DATA.XING, ZI_XING = new Set(LR_DATA.ZI_XING);
 const YI_MA = LR_DATA.YI_MA, GAN_HE = LR_DATA.GAN_HE, SAN_HE = LR_DATA.SAN_HE;
@@ -366,19 +371,30 @@ Chart.prototype._jiang = function () {
 };
 
 Chart.prototype._sha = function () {
+  const dg = this.day_gan, dz = this.day_zhi;
+  // 八煞：德（日德）合（日支六合）鬼（克日干之支）墓（日干墓）
+  //      破（日支六破）害（日支六害）刑（日支三刑/自刑）冲（日支六冲）
+  const gui = [];
+  ZHI.forEach(z => { if (WX_KE[ZHI_WX[z]] === GAN_WX[dg]) gui.push(z); });
   const vals = {
-    "德": DE_TABLE[this.day_gan],
-    "禄": LU_TABLE[this.day_gan],
-    "驿": YI_MA[this.day_zhi],
-    "天": TIAN_MA_SEQ[((ZHI_IDX[this.month_zhi] - ZHI_IDX["寅"]) % 6 + 6) % 6],
-    "丁": ZHI[(this.xun_shou_index + 3) % 12],
-    "桃": TAO_TABLE[this.day_zhi],
-    "刃": REN_TABLE[this.day_gan],
-    "墓": MU_TABLE[this.day_gan],
+    "德": DE_TABLE[dg],
+    "合": ZHI_HE[dz],
+    "鬼": gui,
+    "墓": MU_TABLE[dg],
+    "破": ZHI_PO[dz],
+    "害": ZHI_HAI[dz],
+    "刑": ZHI_XING[dz],
+    "冲": ZHI[((ZHI_IDX[dz] + 6) % 12)],
   };
   this.sha_val = vals;
   const m = {};
-  SHA_ORDER.forEach(n => { (m[vals[n]] = m[vals[n]] || []).push(n); });
+  SHA_NAMES.forEach(n => {
+    const v = vals[n];
+    (Array.isArray(v) ? v : [v]).forEach(z => {
+      if (!z) return;
+      (m[z] = m[z] || []).push(n);
+    });
+  });
   this.sha_map = m;
 };
 Chart.prototype.shaOf = function (zhi) { return (this.sha_map[zhi] || []).join("·"); };
