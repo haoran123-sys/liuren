@@ -195,66 +195,46 @@
     </div>
 
     <form class="bar" id="bar" autocomplete="off">
-        <input type="datetime-local" id="dt" step="1" required>
+        <input type="datetime-local" id="dt" step="1" min="1901-01-01T00:00" max="2100-12-31T23:59" required>
         <button type="submit">起课</button>
         <button type="button" class="now" id="now">此刻</button>
     </form>
 
-    <div id="app"><div class="boot" id="boot">载入排盘引擎<span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+    <div id="app"><div class="boot" id="boot">排盘<span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
 
     <div class="sign"><span class="seal"><span>浩</span><span>然</span></span></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="liuren.js"></script>
 <script>
 const APP = document.getElementById('app');
 const INP = document.getElementById('dt');
-let RENDER = null;
 
 function pad(n){ return (n<10?'0':'')+n; }
 function nowStr(){
   const d = new Date();
   return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
 }
-function stage(t){
-  const b = document.getElementById('boot');
-  if (b) b.innerHTML = t + '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
-}
 
-async function boot(){
+function draw(v){
   try{
-    stage('载入运算环境');
-    const py = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/' });
-    stage('载入排盘内核');
-    const code = await (await fetch('liuren_core.py', {cache:'force-cache'})).text();
-    py.FS.writeFile('/home/pyodide/liuren_core.py', code);
-    py.runPython("import sys; sys.path.insert(0,'/home/pyodide'); import liuren_core");
-    RENDER = (s) => { py.globals.set('__dt_in', s); return py.runPython('liuren_core.render_ctx_json(__dt_in)'); };
-    const b = document.getElementById('boot'); if (b) b.remove();
-    const q = new URLSearchParams(location.search).get('dt');
-    draw(q || INP.value || nowStr());
+    const r = LiuRen.render(v);
+    APP.innerHTML = r.body;
+    INP.value = r.iso;
+    document.title = '浩然大六壬神课排盘 ' + r.iso.replace('T',' ');
+    history.replaceState(null, '', '?dt=' + r.iso);
   }catch(e){
-    APP.innerHTML = '<div class="boot">排盘引擎载入失败，请刷新重试<br><span style="letter-spacing:0;font-size:12px">'
-      + (e && e.message ? e.message : e) + '</span></div>';
+    APP.innerHTML = '<div class="boot">排盘出错，请换个时刻重试</div>';
     console.error(e);
   }
 }
 
-function draw(v){
-  if (!RENDER) return;
-  try{
-    const r = JSON.parse(RENDER(v));
-    APP.innerHTML = r.body;
-    INP.value = r.dt;
-    document.title = '浩然大六壬神课排盘 ' + r.dt.replace('T',' ');
-    history.replaceState(null, '', '?dt=' + r.dt);
-  }catch(e){ console.error(e); }
-}
-
-INP.value = nowStr();
+const q = new URLSearchParams(location.search).get('dt');
+INP.value = q || nowStr();
+if (q) INP.value = q.replace(' ','T').slice(0,19);
 document.getElementById('bar').addEventListener('submit', (ev)=>{ ev.preventDefault(); draw(INP.value); });
 document.getElementById('now').addEventListener('click', ()=>{ INP.value = nowStr(); draw(INP.value); });
-boot();
+draw(INP.value);
 </script>
 </body>
 </html>
