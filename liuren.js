@@ -584,13 +584,18 @@ function renderChart(ch) {
   H.push("</div>");
 
   H.push('<div class="pan">');
+  const muV = Array.isArray(ch.sha_val["墓"]) ? ch.sha_val["墓"] : [ch.sha_val["墓"]];
   ch.gong.forEach(g => {
+    // 天地盘只标 墓（日干墓）与 空（旬空），其余六煞仅标于四课三传
+    const mk = [];
+    if (muV.indexOf(g.tian) >= 0) mk.push("墓");
+    if (g.kong) mk.push("空");
     H.push('<div class="pc" style="grid-row:' + g.row + ";grid-column:" + g.col + ';">');
     H.push('<div class="jj">' + esc(j1(g.jiang)) + "</div>");
     H.push('<div class="tz" style="color:' + (g.kong ? "#a03535" : "var(--ink)") + '">'
       + esc(g.tian) + "</div>");
     H.push('<div class="dg"><span>' + esc(g.dun) + '</span><span class="shas gsh">');
-    if (g.sha) g.sha.split("·").forEach(t => H.push('<i class="sc">' + esc(t) + "</i>"));
+    mk.forEach(t => H.push('<i class="sc">' + esc(t) + "</i>"));
     H.push("</span></div></div>");
   });
   H.push('<div class="pc center">');
