@@ -544,9 +544,7 @@ function renderChart(ch) {
     H.push('<span class="lab">' + esc(c.label[0]) + "</span>");
     H.push('<span class="qn">' + esc(c.qin) + "</span>");
     H.push('<span class="bz"><i>' + esc(c.dun) + "</i>" + esc(c.zhi) + "</span>");
-    H.push('<span class="kebz">' + esc(marks[i] || ""));
-    if (bifaCi === i) H.push('<span class="bfq">' + esc(txt) + "</span>");
-    H.push("</span>");
+    H.push('<span class="kebz">' + (bifaCi === i ? '<span class="bfq">' + esc(txt) + "</span>" : "") + "</span>");
     H.push('<span class="jj">' + esc(j1(c.jiang)) + "</span>");
     const sha = ch.shaOf(c.zhi);
     H.push('<span class="shas">');
