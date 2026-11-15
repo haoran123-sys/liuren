@@ -370,17 +370,23 @@ Chart.prototype._jiang = function () {
   }
 };
 
+// 《六壬大全》十干墓（壬课重在日，惟从十干墓，不从五行墓）
+const MU_GAN = {"甲":"未","乙":"戌","丙":"戌","丁":"丑","戊":"戌",
+                "己":"丑","庚":"丑","辛":"辰","壬":"辰","癸":"未"};
+
 Chart.prototype._sha = function () {
   const dg = this.day_gan, dz = this.day_zhi;
-  // 八煞：德（日德）合（日支六合）鬼（克日干之支）墓（日干墓）
-  //      破（日支六破）害（日支六害）刑（日支三刑/自刑）冲（日支六冲）
+  // 八煞依《六壬大全》卷一：德、合、鬼、墓、破、害、刑、冲
+  // 鬼：干支之中，阳克阳为鬼，阴克阴为鬼（须同阴阳）
   const gui = [];
-  ZHI.forEach(z => { if (WX_KE[ZHI_WX[z]] === GAN_WX[dg]) gui.push(z); });
+  ZHI.forEach(z => {
+    if (WX_KE[ZHI_WX[z]] === GAN_WX[dg] && ZHI_YY[z] === GAN_YY[dg]) gui.push(z);
+  });
   const vals = {
     "德": DE_TABLE[dg],
     "合": ZHI_HE[dz],
     "鬼": gui,
-    "墓": MU_TABLE[dg],
+    "墓": MU_GAN[dg],
     "破": ZHI_PO[dz],
     "害": ZHI_HAI[dz],
     "刑": ZHI_XING[dz],
