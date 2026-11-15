@@ -550,12 +550,10 @@ function renderChart(ch) {
     H.push('<span class="jj">' + esc(j1(c.jiang)));
     const z = zhanC[i];
     if (z) H.push('<i class="' + (z === "内战" ? "zs zs1" : "zs") + '">' + esc(z) + "</i>");
+    H.push("</span>");
     const sha = ch.shaOf(c.zhi);
-    if (sha) {
-      H.push('<span class="shas">');
-      sha.split("·").forEach(t => H.push('<i class="sc">' + esc(t) + "</i>"));
-      H.push("</span>");
-    }
+    H.push('<span class="shas">');
+    if (sha) sha.split("·").forEach(t => H.push('<i class="sc">' + esc(t) + "</i>"));
     H.push("</span></div>");
   });
   H.push("</div>");

@@ -54,17 +54,21 @@
     .mlines .k { color: var(--gray); letter-spacing: 2px; }
     .mlines .g { color: var(--gray); }
 
-    /* 三传 */
-    .chuan { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 0 40px; }
-    .cre { display: grid; grid-template-columns: 32px 60px 104px 74px 118px; align-items: baseline;
-           justify-items: center; font-size: 15px; padding: 6px 0; }
-    .cre .lab { color: var(--red); font-size: 14px; letter-spacing: 2px; }
-    .cre .qn { color: var(--gray); font-size: 13px; letter-spacing: 1px; }
-    .cre .bz { font-size: 48px; line-height: 1.06; display: inline-flex; align-items: baseline; }
+    /* 三传：整块网格，六列对齐（初/中/末 · 六亲 · 遁干支 · 战克标 · 天将战 · 煞圈） */
+    .chuan { display: grid;
+             grid-template-columns: 32px 60px 96px 118px 96px 92px;
+             align-items: center; justify-content: center;
+             column-gap: 8px; row-gap: 8px; max-width: 640px; margin: 0 auto 40px; }
+    .cre { display: contents; }
+    .cre .lab { color: var(--red); font-size: 14px; letter-spacing: 2px; text-align: center; }
+    .cre .qn { color: var(--gray); font-size: 13px; letter-spacing: 1px; text-align: center; }
+    .cre .bz { font-size: 48px; line-height: 1.06; display: flex; align-items: baseline;
+               justify-content: center; white-space: nowrap; }
     .cre .bz i { font-style: normal; font-size: 15px; color: #8d8680; margin-right: 7px; }
-    .cre .kebz { font-size: 12px; color: var(--red); letter-spacing: .5px; opacity: .92; }
+    .cre .kebz { font-size: 12px; color: var(--red); letter-spacing: .5px; opacity: .92;
+                 text-align: center; line-height: 1.6; }
     /* 朱圈：八煞单字 */
-    .shas { display: inline-flex; align-items: center; gap: 3px; }
+    .shas { display: flex; align-items: center; gap: 3px; justify-content: center; }
     .sc { font-style: normal; display: inline-flex; align-items: center; justify-content: center;
           width: 22px; height: 22px; border: 1px solid rgba(156,50,50,.6); border-radius: 50%;
           color: var(--red); font-size: 13px; line-height: 1; letter-spacing: 0; }
@@ -72,30 +76,36 @@
     /* 朱圈：课体名与法句 */
     .circ { border: 1px solid rgba(156,50,50,.5); border-radius: 999px; padding: 0 12px;
             display: inline-block; line-height: 1.7; }
-    .cre .jj { color: #1e1b19; font-size: 23px; letter-spacing: 0; }
-    .cre .jj .sha { font-style: normal; font-size: 12.5px; color: var(--red); margin-left: 8px; letter-spacing: 0; }
+    .cre .jj { color: #1e1b19; font-size: 23px; letter-spacing: 0; text-align: center;
+               white-space: nowrap; }
     .cre.first .bz { color: var(--red); }
     .cre.first .bz i { color: #c09a96; }
 
-    /* 四课 */
-    .ke { display: flex; justify-content: center; gap: 56px; margin: 0 0 42px; }
-    .kec { display: flex; flex-direction: column; align-items: center; }
-    .kec .lab { font-size: 12.5px; color: var(--gray); letter-spacing: 2px; margin-bottom: 10px; }
-    .kec .jj { font-size: 21px; color: #3a3531; margin-bottom: 8px; letter-spacing: 0; }
-    .kec .up { font-size: 47px; line-height: 1.12; }
-    .kec .dn { font-size: 31px; line-height: 1.22; margin-top: 6px; color: #3d3934; }
-    .kec .nt { font-size: 11px; color: var(--gray2); margin-top: 9px; letter-spacing: .5px; }
+    /* 四课：四列等宽，逐行等高 */
+    .ke { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 14px;
+          max-width: 620px; margin: 0 auto 42px; }
+    .kec { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .kec .lab { height: 24px; display: flex; align-items: center; justify-content: center; gap: 4px;
+                font-size: 12.5px; color: var(--gray); letter-spacing: 2px; }
+    .kec .jj { height: 32px; display: flex; align-items: center; justify-content: center;
+               font-size: 21px; color: #3a3531; letter-spacing: 0; }
+    .kec .up { height: 58px; display: flex; align-items: center; justify-content: center;
+               font-size: 47px; line-height: 1.1; }
+    .kec .dn { height: 42px; display: flex; align-items: center; justify-content: center;
+               font-size: 31px; line-height: 1.2; color: #3d3934; }
+    .kec .nt { height: 20px; display: flex; align-items: center; justify-content: center;
+               font-size: 11px; color: var(--gray2); letter-spacing: .5px; white-space: nowrap; }
     .kec.haske .nt { color: var(--red); opacity: .95; }
     .kec.yong .lab { color: var(--red); font-weight: normal; }
     .kec.yong .nt { color: var(--red); }
     .zs { font-style: normal; font-size: 10.5px; letter-spacing: 1px; margin-left: 3px;
           color: var(--gray2); vertical-align: 12px; }
     .zs1 { color: rgba(156,50,50,.8); }
-    .bfq { display: inline-block; margin-top: 8px; font-size: 12.5px; color: var(--red);
-           letter-spacing: 1.5px; opacity: .9; border-top: 1px solid rgba(156,50,50,.28);
-           padding-top: 5px; }
+    .bfq { display: block; margin: 6px auto 0; width: fit-content; font-size: 12px; color: var(--red);
+           letter-spacing: 1px; opacity: .92; border-top: 1px solid rgba(156,50,50,.28);
+           padding-top: 4px; white-space: nowrap; }
     .kec .yb { font-style: normal; font-size: 11px; border: 1px solid var(--line);
-               color: var(--red); padding: 0 3px; margin-left: 4px; }
+               color: var(--red); padding: 0 3px; }
     .kec.yong .up, .kec.yong .dn { text-shadow: 0 0 .6px rgba(156,50,50,.35); }
     .kec.yong::after { content: ""; display: block; width: 62px; border-top: 1px solid rgba(156,50,50,.45);
                        margin-top: 8px; }
@@ -121,6 +131,10 @@
     .pc.center .kt em { font-style: normal; font-size: 15px; letter-spacing: 1px; color: var(--gray);
                         margin-left: 8px; }
     .pc.center .sub { font-size: 12px; color: var(--gray); line-height: 2.1; letter-spacing: .5px; }
+    .pc.center .krow { display: flex; align-items: center; justify-content: center; gap: 7px;
+                       font-size: 13px; letter-spacing: 1px; line-height: 1.5; margin-top: 4px; }
+    .pc.center .krow .circ { font-size: 13px; padding: 0 9px; line-height: 1.5; letter-spacing: .5px; }
+    .pc.center .krow .fno { color: var(--gray); font-size: 11.5px; letter-spacing: 0; }
 
     /* 尾注 */
     .note { max-width: 700px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid var(--line);
@@ -148,26 +162,41 @@
         .btxt { font-size: 22px; letter-spacing: 12px; text-indent: 12px; }
         .title { font-size: 33px; letter-spacing: 15px; text-indent: 15px; }
         .head { padding: 4px 0 18px; }
-        .bar { margin: 22px 0 30px; gap: 10px; }
-        .bar input[type=datetime-local] { min-width: 172px; font-size: 14px; }
+        .bar { margin: 22px 0 30px; gap: 8px; flex-wrap: nowrap; }
+        .bar input[type=datetime-local] { min-width: 0; flex: 1 1 0%; width: auto; padding-left: 0;
+                 font-size: 13px; letter-spacing: 0; }
+        .bar button { flex: none; padding: 6px 10px; font-size: 12.5px; letter-spacing: 1px;
+                      text-indent: 1px; }
         .meta { flex-direction: column; align-items: center; gap: 16px; margin-bottom: 32px; }
         .vline { display: none; }
         .mlines { text-align: center; line-height: 2.1; }
-        .cre { grid-template-columns: 24px 42px 76px 62px 86px; }
+        .chuan { grid-template-columns: 22px 34px 66px 78px 56px 60px;
+                 column-gap: 3px; row-gap: 6px; max-width: 100%; margin-bottom: 30px; }
         .cre .bz { font-size: 34px; }
+        .cre .bz i { font-size: 12px; margin-right: 4px; }
         .cre .jj { font-size: 17px; }
-        .chuan { margin-bottom: 30px; }
-        .ke { gap: 22px; margin-bottom: 32px; }
-        .kec .up { font-size: 31px; } .kec .dn { font-size: 23px; }
-        .kec .jj { font-size: 16px; } .kec .nt { font-size: 10px; }
-        .bfq { font-size: 9.5px; letter-spacing: .5px; margin-top: 5px; }
+        .cre .lab { font-size: 12px; letter-spacing: 1px; }
+        .cre .qn { font-size: 11.5px; letter-spacing: 0; }
+        .cre .kebz { font-size: 10px; letter-spacing: 0; }
+        .shas { gap: 2px; }
+        .sc { width: 18px; height: 18px; font-size: 11px; }
+        .ke { column-gap: 6px; max-width: 100%; margin-bottom: 32px; }
+        .kec .lab { height: 20px; font-size: 11px; letter-spacing: 1px; }
+        .kec .jj { height: 26px; font-size: 16px; }
+        .kec .up { height: 42px; font-size: 31px; }
+        .kec .dn { height: 32px; font-size: 23px; }
+        .kec .nt { height: 18px; font-size: 10px; letter-spacing: 0; }
+        .bfq { font-size: 9.5px; letter-spacing: 0; margin-top: 4px; padding-top: 3px; }
         .pan { grid-template-rows: repeat(4, 132px); }
         .pc { padding: 6px 6px; }
         .pc .jj { font-size: 30px; letter-spacing: 0; text-indent: 0; }
         .pc .tz { font-size: 22px; }
         .pc .dg { font-size: 12px; }
         .pc.center .rd { font-size: 11.5px; }
-        .pc.center .kt { font-size: 20px; letter-spacing: 3px; margin: 10px 0 8px; }
+        .pc.center .kt { font-size: 19px; letter-spacing: 2px; margin: 8px 0 6px; }
+        .pc.center .krow { font-size: 11px; gap: 5px; letter-spacing: 0; }
+        .pc.center .krow .circ { font-size: 11px; padding: 0 7px; letter-spacing: 0; }
+        .pc.center .krow .fno { font-size: 10px; }
         .pc.center .kt em { font-size: 12px; }
         .pc.center .sub { font-size: 10.5px; }
         .note { margin-top: 30px; padding-top: 16px; }
