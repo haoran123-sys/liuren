@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>浩然大六壬神课排盘</title>
+<meta name="description" content="大六壬在线排盘：月将加时、天地盘、四课三传、十二天将、旬遁六亲、八煞神煞，课经与毕法赋依《六壬大全》标注，手机电脑通用。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111111'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='%23fff' font-family='serif'%3E%E8%8E%9A%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+        --ink: #1b1a18; --red: #9c3232; --gray: #8d8680; --gray2: #a9a29b;
+        --line: #ded3ce; --line2: #efe8e4;
+    }
+    * { box-sizing: border-box; }
+    body { background: #fff; color: var(--ink); margin: 0;
+           padding: 46px 20px 58px;
+           font-family: "STSong", "Songti SC", "SimSun", "Songti TC", serif;
+           -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 860px; margin: 0 auto; }
+
+    /* 标题 */
+    .head { text-align: center; padding: 6px 0 26px; }
+    .brand { display: flex; align-items: center; justify-content: center; gap: 20px;
+             margin-bottom: 18px; }
+    .bline { width: 84px; height: 1px; background: var(--line); }
+    .btxt { font-size: 30px; letter-spacing: 18px; text-indent: 18px; color: var(--red);
+            line-height: 1.1; }
+    .title { font-size: 47px; letter-spacing: 24px; text-indent: 24px; line-height: 1.12;
+             font-weight: 400; }
+    .rule { margin: 24px auto 0; max-width: 860px; }
+    .rule.top { margin: 0 auto 18px; max-width: 620px; opacity: .8; }
+    .rule span { display: block; border-top: 1px solid var(--line); }
+    .rule span + span { border-top: 1px solid var(--line2); margin-top: 3px; }
+
+    /* 起课条 */
+    .bar { display: flex; justify-content: center; align-items: baseline; gap: 18px; margin: 30px 0 40px; }
+    .bar input[type=datetime-local] { font-family: inherit; font-size: 15px; color: var(--ink);
+             background: transparent; border: none; border-bottom: 1px solid var(--line);
+             padding: 3px 0 6px; outline: none; min-width: 216px; letter-spacing: .5px; }
+    .bar button { font-family: inherit; font-size: 14px; letter-spacing: 5px; text-indent: 5px;
+             color: var(--red); background: none; border: 1px solid var(--line);
+             padding: 7px 20px; cursor: pointer; transition: .2s; }
+    .bar button:hover { background: #fbf7f5; border-color: var(--red); }
+    .bar input::-webkit-calendar-picker-indicator { opacity: .22; cursor: pointer; }
+
+    /* 四柱 + 信息 */
+    .meta { display: flex; justify-content: center; align-items: flex-start; gap: 38px; margin-bottom: 42px; }
+    .pillars { display: flex; gap: 15px; }
+    .pil { display: flex; flex-direction: column; align-items: center; }
+    .pil .ph { font-size: 12.5px; color: var(--gray); letter-spacing: 3px; text-indent: 3px; margin-bottom: 8px; }
+    .pil .pz { font-size: 30px; line-height: 1.16; }
+    .vline { width: 1px; align-self: stretch; background: var(--line2); margin: 2px 2px 2px 0; }
+    .mlines { font-size: 14.5px; line-height: 2.25; color: #3b3733; }
+    .mlines .k { color: var(--gray); letter-spacing: 2px; }
+    .mlines .g { color: var(--gray); }
+
+    /* 三传 */
+    .chuan { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 0 40px; }
+    .cre { display: grid; grid-template-columns: 32px 60px 104px 74px 118px; align-items: baseline;
+           justify-items: center; font-size: 15px; padding: 6px 0; }
+    .cre .lab { color: var(--red); font-size: 14px; letter-spacing: 2px; }
+    .cre .qn { color: var(--gray); font-size: 13px; letter-spacing: 1px; }
+    .cre .bz { font-size: 48px; line-height: 1.06; display: inline-flex; align-items: baseline; }
+    .cre .bz i { font-style: normal; font-size: 15px; color: #8d8680; margin-right: 7px; }
+    .cre .kebz { font-size: 12px; color: var(--red); letter-spacing: .5px; opacity: .92; }
+    /* 朱圈：八煞单字 */
+    .shas { display: inline-flex; align-items: center; gap: 3px; }
+    .sc { font-style: normal; display: inline-flex; align-items: center; justify-content: center;
+          width: 22px; height: 22px; border: 1px solid rgba(156,50,50,.6); border-radius: 50%;
+          color: var(--red); font-size: 13px; line-height: 1; letter-spacing: 0; }
+    .gsh .sc { width: 24px; height: 24px; font-size: 13.5px; }
+    /* 朱圈：课体名与法句 */
+    .circ { border: 1px solid rgba(156,50,50,.5); border-radius: 999px; padding: 0 12px;
+            display: inline-block; line-height: 1.7; }
+    .cre .jj { color: #1e1b19; font-size: 23px; letter-spacing: 0; }
+    .cre .jj .sha { font-style: normal; font-size: 12.5px; color: var(--red); margin-left: 8px; letter-spacing: 0; }
+    .cre.first .bz { color: var(--red); }
+    .cre.first .bz i { color: #c09a96; }
+
+    /* 四课 */
+    .ke { display: flex; justify-content: center; gap: 56px; margin: 0 0 42px; }
+    .kec { display: flex; flex-direction: column; align-items: center; }
+    .kec .lab { font-size: 12.5px; color: var(--gray); letter-spacing: 2px; margin-bottom: 10px; }
+    .kec .jj { font-size: 21px; color: #3a3531; margin-bottom: 8px; letter-spacing: 0; }
+    .kec .up { font-size: 47px; line-height: 1.12; }
+    .kec .dn { font-size: 31px; line-height: 1.22; margin-top: 6px; color: #3d3934; }
+    .kec .nt { font-size: 11px; color: var(--gray2); margin-top: 9px; letter-spacing: .5px; }
+    .kec.haske .nt { color: var(--red); opacity: .95; }
+    .kec.yong .lab { color: var(--red); font-weight: normal; }
+    .kec.yong .nt { color: var(--red); }
+    .zs { font-style: normal; font-size: 10.5px; letter-spacing: 1px; margin-left: 3px;
+          color: var(--gray2); vertical-align: 12px; }
+    .zs1 { color: rgba(156,50,50,.8); }
+    .bfq { display: inline-block; margin-top: 8px; font-size: 12.5px; color: var(--red);
+           letter-spacing: 1.5px; opacity: .9; border-top: 1px solid rgba(156,50,50,.28);
+           padding-top: 5px; }
+    .kec .yb { font-style: normal; font-size: 11px; border: 1px solid var(--line);
+               color: var(--red); padding: 0 3px; margin-left: 4px; }
+    .kec.yong .up, .kec.yong .dn { text-shadow: 0 0 .6px rgba(156,50,50,.35); }
+    .kec.yong::after { content: ""; display: block; width: 62px; border-top: 1px solid rgba(156,50,50,.45);
+                       margin-top: 8px; }
+
+    /* 天地盘 */
+    .pan { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+           grid-template-rows: repeat(4, 166px);
+           width: 100%; max-width: 700px; margin: 0 auto;
+           border: 1px solid var(--line); }
+    .pc { border-right: 1px solid var(--line2); border-bottom: 1px solid var(--line2); min-width: 0;
+          display: flex; flex-direction: column; justify-content: space-between; padding: 10px 12px; }
+    .pc .jj { font-size: 52px; letter-spacing: 0; text-indent: 0; line-height: 1.2; color: #262220; text-align: center; }
+    .pc .tz { flex: 1; display: flex; align-items: center; justify-content: center;
+              font-size: 36px; line-height: 1; }
+    .pc .dg { display: flex; justify-content: space-between; align-items: flex-end;
+              font-size: 15px; color: #7b746d; letter-spacing: 1px; }
+    .pc .dg .sha { color: var(--red); letter-spacing: 0; font-size: 14px; opacity: .92; }
+    .pc.center { grid-column: 2 / 4; grid-row: 2 / 4; align-items: center; justify-content: center;
+                 text-align: center; padding: 12px; border-right: 1px solid var(--line2);
+                 border-bottom: 1px solid var(--line2); }
+    .pc.center .rd { font-size: 14px; color: var(--gray); letter-spacing: 1.5px; line-height: 1.9; }
+    .pc.center .kt { font-size: 32px; letter-spacing: 7px; text-indent: 6px; margin: 14px 0 12px; }
+    .pc.center .kt em { font-style: normal; font-size: 15px; letter-spacing: 1px; color: var(--gray);
+                        margin-left: 8px; }
+    .pc.center .sub { font-size: 12px; color: var(--gray); line-height: 2.1; letter-spacing: .5px; }
+
+    /* 尾注 */
+    .note { max-width: 700px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid var(--line);
+            display: flex; flex-direction: column; gap: 14px; }
+    .note .row { display: flex; gap: 18px; align-items: center; }
+    
+    .note .tag { flex: none; color: var(--red); font-size: 14px; letter-spacing: 6px; }
+    .note .txt { flex: 1; color: #2f2b28; font-size: 21px; line-height: 1.9; letter-spacing: 2px; }
+    .note .row.sub { margin-top: 4px; }
+    .note .row.sub .tag { font-size: 12.5px; letter-spacing: 3px; padding-top: 3px; }
+    .note .row.sub .txt { font-size: 14.5px; color: #7c746d; }
+    .note .row.gap { margin-top: 14px; }
+
+    /* 落款朱印 */
+    .sign { display: flex; justify-content: flex-end; margin-top: 20px; }
+    .seal { display: inline-flex; flex-direction: column; align-items: center;
+            background: var(--red); color: #fff; border: 1px solid var(--red);
+            padding: 5px 7px 6px; line-height: 1.25; font-size: 12.5px; letter-spacing: 2px;
+            text-indent: 2px; opacity: .92; }
+
+    @media (max-width: 640px) {
+        body { padding: 30px 16px 44px; }
+        .brand { gap: 12px; margin-bottom: 12px; }
+        .bline { width: 42px; }
+        .btxt { font-size: 22px; letter-spacing: 12px; text-indent: 12px; }
+        .title { font-size: 33px; letter-spacing: 15px; text-indent: 15px; }
+        .head { padding: 4px 0 18px; }
+        .bar { margin: 22px 0 30px; gap: 10px; }
+        .bar input[type=datetime-local] { min-width: 172px; font-size: 14px; }
+        .meta { flex-direction: column; align-items: center; gap: 16px; margin-bottom: 32px; }
+        .vline { display: none; }
+        .mlines { text-align: center; line-height: 2.1; }
+        .cre { grid-template-columns: 24px 42px 76px 62px 86px; }
+        .cre .bz { font-size: 34px; }
+        .cre .jj { font-size: 17px; }
+        .chuan { margin-bottom: 30px; }
+        .ke { gap: 22px; margin-bottom: 32px; }
+        .kec .up { font-size: 31px; } .kec .dn { font-size: 23px; }
+        .kec .jj { font-size: 16px; } .kec .nt { font-size: 10px; }
+        .bfq { font-size: 9.5px; letter-spacing: .5px; margin-top: 5px; }
+        .pan { grid-template-rows: repeat(4, 132px); }
+        .pc { padding: 6px 6px; }
+        .pc .jj { font-size: 30px; letter-spacing: 0; text-indent: 0; }
+        .pc .tz { font-size: 22px; }
+        .pc .dg { font-size: 12px; }
+        .pc.center .rd { font-size: 11.5px; }
+        .pc.center .kt { font-size: 20px; letter-spacing: 3px; margin: 10px 0 8px; }
+        .pc.center .kt em { font-size: 12px; }
+        .pc.center .sub { font-size: 10.5px; }
+        .note { margin-top: 30px; padding-top: 16px; }
+        .note .txt { font-size: 17px; line-height: 1.9; }
+    }
+
+    /* 在线版外壳 */
+    .boot { max-width: 700px; margin: 60px auto; text-align: center; color: var(--gray);
+            font-size: 14px; letter-spacing: 4px; line-height: 2.4; }
+    .boot .dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+                 background: var(--red); margin: 0 3px; animation: pul 1.2s infinite; }
+    .boot .dot:nth-child(2) { animation-delay: .2s } .boot .dot:nth-child(3) { animation-delay: .4s }
+    @keyframes pul { 0%,100% { opacity: .2 } 50% { opacity: 1 } }
+    .bar .now { font-size: 13px; letter-spacing: 2px; text-indent: 2px; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="head">
+        <div class="rule top"><span></span></div>
+        <div class="brand"><span class="bline"></span><span class="btxt">浩然</span><span class="bline"></span></div>
+        <div class="title">大六壬</div>
+        <div class="rule"><span></span><span></span></div>
+    </div>
+
+    <form class="bar" id="bar" autocomplete="off">
+        <input type="datetime-local" id="dt" step="1" required>
+        <button type="submit">起课</button>
+        <button type="button" class="now" id="now">此刻</button>
+    </form>
+
+    <div id="app"><div class="boot" id="boot">载入排盘引擎<span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+
+    <div class="sign"><span class="seal"><span>浩</span><span>然</span></span></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script>
+const APP = document.getElementById('app');
+const INP = document.getElementById('dt');
+let RENDER = null;
+
+function pad(n){ return (n<10?'0':'')+n; }
+function nowStr(){
+  const d = new Date();
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+}
+function stage(t){
+  const b = document.getElementById('boot');
+  if (b) b.innerHTML = t + '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+}
+
+async function boot(){
+  try{
+    stage('载入运算环境');
+    const py = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/' });
+    stage('载入排盘内核');
+    const code = await (await fetch('liuren_core.py', {cache:'force-cache'})).text();
+    py.FS.writeFile('/home/pyodide/liuren_core.py', code);
+    py.runPython("import sys; sys.path.insert(0,'/home/pyodide'); import liuren_core");
+    RENDER = (s) => { py.globals.set('__dt_in', s); return py.runPython('liuren_core.render_ctx_json(__dt_in)'); };
+    const b = document.getElementById('boot'); if (b) b.remove();
+    const q = new URLSearchParams(location.search).get('dt');
+    draw(q || INP.value || nowStr());
+  }catch(e){
+    APP.innerHTML = '<div class="boot">排盘引擎载入失败，请刷新重试<br><span style="letter-spacing:0;font-size:12px">'
+      + (e && e.message ? e.message : e) + '</span></div>';
+    console.error(e);
+  }
+}
+
+function draw(v){
+  if (!RENDER) return;
+  try{
+    const r = JSON.parse(RENDER(v));
+    APP.innerHTML = r.body;
+    INP.value = r.dt;
+    document.title = '浩然大六壬神课排盘 ' + r.dt.replace('T',' ');
+    history.replaceState(null, '', '?dt=' + r.dt);
+  }catch(e){ console.error(e); }
+}
+
+INP.value = nowStr();
+document.getElementById('bar').addEventListener('submit', (ev)=>{ ev.preventDefault(); draw(INP.value); });
+document.getElementById('now').addEventListener('click', ()=>{ INP.value = nowStr(); draw(INP.value); });
+boot();
+</script>
+</body>
+</html>
