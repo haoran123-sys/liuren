@@ -111,10 +111,10 @@
     .kec.yong::after { content: ""; display: block; width: 62px; border-top: 1px solid rgba(156,50,50,.45);
                        margin-top: 8px; }
 
-    /* 横向课盘：天地盘居左，四课三传并排居右 */
+    /* 横向课盘：天地盘居左，三传在上、四课在下居右 */
     .board { display: grid; grid-template-columns: minmax(0, 1fr) 372px;
              column-gap: 26px; align-items: start; max-width: 860px; margin: 0 auto; }
-    .br { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .br { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
     .bk { border-top: 1px solid var(--line2); margin: 0; }
     .board .ke, .board .chuan { max-width: none; margin: 0; }
 
@@ -229,7 +229,7 @@
         .pc.center .krow { font-size: 10px; gap: 3px; margin-top: 3px; }
         .pc.center .krow .circ { font-size: 10px; padding: 0 6px; line-height: 1.4; }
         .pc.center .krow .fno { font-size: 8.5px; }
-        /* 横向课盘退为单列：天地盘在上，四课、三传在下 */
+        /* 横向课盘退为单列：天地盘在上，三传、四课在下 */
         .board { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
         .pan { aspect-ratio: auto; }
         .br { gap: 8px; }
@@ -281,7 +281,7 @@ function nowStr(){
   return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
 }
 
-/* 横排课盘：天地盘居左，四课与三传并排居右 */
+/* 横排课盘：天地盘居左，三传在上、四课在下居右 */
 function layout(){
   const pan = APP.querySelector('.pan');
   const ke = APP.querySelector('.ke');
@@ -295,11 +295,11 @@ function layout(){
   left.appendChild(pan);
   const right = document.createElement('div');
   right.className = 'br';
-  right.appendChild(ke);
+  right.appendChild(chuan);
   const bk = document.createElement('div');
   bk.className = 'bk';
   right.appendChild(bk);
-  right.appendChild(chuan);
+  right.appendChild(ke);
   board.appendChild(left);
   board.appendChild(right);
   if(meta) meta.parentNode.insertBefore(board, meta.nextSibling);
