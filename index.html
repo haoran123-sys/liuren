@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>浩然大六壬神课排盘</title>
-<meta name="description" content="大六壬在线排盘：月将加时、天地盘、四课三传、十二天将、旬遁六亲、八煞神煞，课经与毕法赋依《六壬大全》标注，手机电脑通用。">
+<meta name="description" content="大六壬在线排盘：月将加时、天地盘、四课三传、十二天将、旬遁六亲、八煞神煞、十二长生，课经与毕法赋依《六壬大全》标注，手机电脑通用。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111111'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='%23fff' font-family='serif'%3E%E8%8E%9A%3C/text%3E%3C/svg%3E">
 <style>
 :root {
@@ -118,7 +118,7 @@
     .bk { border-top: 1px solid var(--line2); margin: 0; }
     .board .ke, .board .chuan { max-width: none; margin: 0; }
 
-    /* 天地盘：字均收在格内 */
+    /* 天地盘：字均收在格内，格内左上角标十二长生 */
     .pan { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
            grid-template-rows: repeat(4, minmax(0, 1fr));
            aspect-ratio: 1 / 1; width: 100%;
@@ -131,6 +131,10 @@
     .pc .dg { display: flex; justify-content: space-between; align-items: flex-end;
               font-size: 13px; color: #7b746d; letter-spacing: 1px; }
     .pc .dg .sha { color: var(--red); letter-spacing: 0; font-size: 12px; opacity: .92; }
+    .pc { position: relative; }
+    .pc .cs { position: absolute; left: 6px; top: 5px; font-style: normal;
+              color: rgba(156, 50, 50, .88); font-size: 12px; letter-spacing: 0;
+              line-height: 1; white-space: nowrap; }
     .pc.center { grid-column: 2 / 4; grid-row: 2 / 4; align-items: center; justify-content: center;
                  text-align: center; padding: 12px; border-right: 1px solid var(--line2);
                  border-bottom: 1px solid var(--line2); }
@@ -220,6 +224,7 @@
                          flex-wrap: wrap; gap: 1px 3px; justify-content: flex-start;
                          width: calc(100% - 12px); }
         .pc .dg .sha { font-size: 8.5px; }
+        .pc .cs { left: 4px; top: 4px; font-size: 9.5px; }
         .gsh .sc { width: 17px; height: 17px; font-size: 10px; }
         .pc.center { padding: 4px 6px; }
         .pc.center .rd { font-size: 10px; line-height: 1.5; }
@@ -319,11 +324,47 @@ function layout(){
   else APP.appendChild(board);
 }
 
+/* 十二长生：以日干五行起长生，水土同宫（土从水，长生在申），五行同长生、顺行，
+   不分阴干阳干。盘上标注四位：长生、沐浴、墓、绝；墓位与原有朱圈“墓”一致，
+   遇已标则跳过，不重复。 */
+const CS_ZHI = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+const CS_GAN_WX = {"甲":"木","乙":"木","丙":"火","丁":"火","戊":"土","己":"土","庚":"金","辛":"金","壬":"水","癸":"水"};
+const CS_START = {"木":"亥","火":"寅","金":"巳","水":"申","土":"申"};
+const CS_NAME = ["长生","沐浴","冠带","临官","帝旺","衰","病","死","墓","绝","胎","养"];
+const CS_KEEP = {"长生":1,"沐浴":1,"绝":1};
+
+function annotate(){
+  const pan = APP.querySelector('.pan');
+  const pil = APP.querySelectorAll('.pil');
+  if(!pan || pil.length < 3) return;
+  const gz = pil[2].querySelectorAll('.pz');
+  const gan = gz.length ? gz[0].textContent.trim() : '';
+  const wx = CS_GAN_WX[gan];
+  if(!wx) return;
+  const s0 = CS_ZHI.indexOf(CS_START[wx]);
+  pan.querySelectorAll('.pc').forEach(c=>{
+    if(c.classList.contains('center')) return;
+    const tzEl = c.querySelector('.tz');
+    if(!tzEl) return;
+    const tian = tzEl.textContent.trim();
+    const i = CS_ZHI.indexOf(tian);
+    if(i < 0) return;
+    const name = CS_NAME[((i - s0) % 12 + 12) % 12];
+    if(!CS_KEEP[name]) return;
+    if(c.querySelector('.cs')) return;
+    const em = document.createElement('em');
+    em.className = 'cs';
+    em.textContent = name;
+    c.appendChild(em);
+  });
+}
+
 function draw(v){
   try{
     const r = LiuRen.render(v);
     APP.innerHTML = r.body;
     layout();
+    annotate();
     INP.value = r.iso;
     document.title = '浩然大六壬神课排盘 ' + r.iso.replace('T',' ');
     history.replaceState(null, '', '?dt=' + r.iso);
