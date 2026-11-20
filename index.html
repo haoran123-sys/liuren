@@ -111,14 +111,21 @@
     .kec.yong::after { content: ""; display: block; width: 62px; border-top: 1px solid rgba(156,50,50,.45);
                        margin-top: 8px; }
 
+    /* 横向课盘：天地盘居左，四课三传并排居右 */
+    .board { display: grid; grid-template-columns: minmax(0, 1fr) 372px;
+             column-gap: 26px; align-items: start; max-width: 860px; margin: 0 auto; }
+    .br { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .bk { border-top: 1px solid var(--line2); margin: 0; }
+    .board .ke, .board .chuan { max-width: none; margin: 0; }
+
     /* 天地盘 */
     .pan { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-           grid-template-rows: repeat(4, 166px);
-           width: 100%; max-width: 700px; margin: 0 auto;
+           grid-template-rows: repeat(4, minmax(0, 1fr));
+           aspect-ratio: 1 / 1; width: 100%;
            border: 1px solid var(--line); }
     .pc { border-right: 1px solid var(--line2); border-bottom: 1px solid var(--line2); min-width: 0;
           display: flex; flex-direction: column; justify-content: space-between; padding: 10px 12px; }
-    .pc .jj { font-size: 52px; letter-spacing: 0; text-indent: 0; line-height: 1.2; color: #262220; text-align: center; }
+    .pc .jj { font-size: 50px; letter-spacing: 0; text-indent: 0; line-height: 1.2; color: #262220; text-align: center; }
     .pc .tz { flex: 1; display: flex; align-items: center; justify-content: center;
               font-size: 36px; line-height: 1; }
     .pc .dg { display: flex; justify-content: space-between; align-items: flex-end;
@@ -128,7 +135,7 @@
                  text-align: center; padding: 12px; border-right: 1px solid var(--line2);
                  border-bottom: 1px solid var(--line2); }
     .pc.center .rd { font-size: 14px; color: var(--gray); letter-spacing: 1.5px; line-height: 1.9; }
-    .pc.center .kt { font-size: 32px; letter-spacing: 7px; text-indent: 6px; margin: 14px 0 12px; }
+    .pc.center .kt { font-size: 30px; letter-spacing: 6px; text-indent: 5px; margin: 12px 0 10px; }
     .pc.center .kt em { font-style: normal; font-size: 15px; letter-spacing: 1px; color: var(--gray);
                         margin-left: 8px; }
     .pc.center .sub { font-size: 12px; color: var(--gray); line-height: 2.1; letter-spacing: .5px; }
@@ -222,6 +229,12 @@
         .pc.center .krow { font-size: 10px; gap: 3px; margin-top: 3px; }
         .pc.center .krow .circ { font-size: 10px; padding: 0 6px; line-height: 1.4; }
         .pc.center .krow .fno { font-size: 8.5px; }
+        /* 横向课盘退为单列：天地盘在上，四课、三传在下 */
+        .board { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+        .pan { aspect-ratio: auto; }
+        .br { gap: 8px; }
+        .board .ke { margin-bottom: 0; }
+        .bk { border-top: none; }
         .sign { margin-top: 2px; }
         .seal { padding: 2px 4px 3px; font-size: 9px; letter-spacing: 1px; text-indent: 1px; }
     }
@@ -268,10 +281,36 @@ function nowStr(){
   return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
 }
 
+/* 横排课盘：天地盘居左，四课与三传并排居右 */
+function layout(){
+  const pan = APP.querySelector('.pan');
+  const ke = APP.querySelector('.ke');
+  const chuan = APP.querySelector('.chuan');
+  if(!pan || !ke || !chuan) return;
+  const meta = APP.querySelector('.meta');
+  const board = document.createElement('div');
+  board.className = 'board';
+  const left = document.createElement('div');
+  left.className = 'bl';
+  left.appendChild(pan);
+  const right = document.createElement('div');
+  right.className = 'br';
+  right.appendChild(ke);
+  const bk = document.createElement('div');
+  bk.className = 'bk';
+  right.appendChild(bk);
+  right.appendChild(chuan);
+  board.appendChild(left);
+  board.appendChild(right);
+  if(meta) meta.parentNode.insertBefore(board, meta.nextSibling);
+  else APP.appendChild(board);
+}
+
 function draw(v){
   try{
     const r = LiuRen.render(v);
     APP.innerHTML = r.body;
+    layout();
     INP.value = r.iso;
     document.title = '浩然大六壬神课排盘 ' + r.iso.replace('T',' ');
     history.replaceState(null, '', '?dt=' + r.iso);
